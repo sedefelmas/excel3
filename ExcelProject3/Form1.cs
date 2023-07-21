@@ -20,7 +20,7 @@ namespace ExcelProject3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string strFilePath = string.Empty;
+            string filePath = string.Empty;
 
             openFileDialog1.InitialDirectory = Application.StartupPath;
             openFileDialog1.FileName = "*.xlsx";
@@ -29,28 +29,42 @@ namespace ExcelProject3
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                strFilePath = openFileDialog1.FileName;
-                WorkBook workBook = WorkBook.Load(strFilePath);
+                filePath = openFileDialog1.FileName;
+                WorkBook workBook = WorkBook.Load(filePath);
                 WorkSheet workSheet = workBook.WorkSheets[0];
-                WorkSheet firstSheet = workBook.DefaultWorkSheet;
-                int rowCount = firstSheet.RowCount;
-                int colCount = firstSheet.ColumnCount;
+                Range usedRange = workSheet;
+                int rowCount = workSheet.RowCount;
+                int colCount = workSheet.ColumnCount;
+                string cellValue;
+                ICollection<string> cellRange = workSheet.GetNamedRanges();
                 //List<string> list = new List<string>();
-                foreach (var cell in workSheet["A1:D6"])
+                foreach (var cell in workSheet["A1:D7"])
                 {
+                    if(cell.ToString()!= "" && cell != null) 
+                    {
                     //list.Add(cell.ToString());
                     listBox1.Items.Add(cell.ToString());
+                    } 
                 }
+                //foreach(var cell in cellRange)
+                //{
+                //    cell = 
+                //    listBox1.Items.Add(cell);
+                //}                
+                //for (int i = 1; i <= rowCount; i++)
+                //{
+                //    for (int j = 1; j < colCount; j++)
+                //    {
+                //        if (workSheet.GetCellAt(i, j).Value.ToString() != null)
+                //        {
+                //            cellValue = workSheet.GetCellAt(i, j).StringValue;
+                //            listBox1.Items.Add(cellValue);
+                //        }
+                //    }
+                //}
             }
             //listBox1.Items.Add(list);
-            //for(int i = 1; i <= rowCount; i++)
-            //{
-            //    for (int j = 0; j < colCount; j++)
-            //    {
-            //        cell = workSheet[ij];
-            //        listBox1.Items.Add(cell.Value.ToString());
-            //    }
-            //}
+
 
         }
     }
