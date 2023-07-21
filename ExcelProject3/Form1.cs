@@ -20,19 +20,29 @@ namespace ExcelProject3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            WorkBook workBook = WorkBook.Load("C:\\Users\\YPN-1255\\Documents\\Book1.xlsx");
-            WorkSheet workSheet = workBook.WorkSheets[0];
-            WorkSheet firstSheet = workBook.DefaultWorkSheet;
-            int rowCount = firstSheet.RowCount;
-            int colCount = firstSheet.ColumnCount;
-            Cell cellValue = null;
-            List<string> list = new List<string>();
-            foreach (var cell in workSheet["A1:D6"])
+            string strFilePath = string.Empty;
+
+            openFileDialog1.InitialDirectory = Application.StartupPath;
+            openFileDialog1.FileName = "*.xlsx";
+            openFileDialog1.Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                list.Add(cell.ToString());
-                listBox1.Items.Add(cell.ToString());
+                strFilePath = openFileDialog1.FileName;
+                WorkBook workBook = WorkBook.Load(strFilePath);
+                WorkSheet workSheet = workBook.WorkSheets[0];
+                WorkSheet firstSheet = workBook.DefaultWorkSheet;
+                int rowCount = firstSheet.RowCount;
+                int colCount = firstSheet.ColumnCount;
+                //List<string> list = new List<string>();
+                foreach (var cell in workSheet["A1:D6"])
+                {
+                    //list.Add(cell.ToString());
+                    listBox1.Items.Add(cell.ToString());
+                }
             }
-            listBox1.Items.Add(list);
+            //listBox1.Items.Add(list);
             //for(int i = 1; i <= rowCount; i++)
             //{
             //    for (int j = 0; j < colCount; j++)
